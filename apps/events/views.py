@@ -19,7 +19,6 @@ from apps.notifications.service import EventNotificationService
 
 
 class EventViewSet(viewsets.ModelViewSet):
-    queryset = Event.objects.all()
     serializer_class = EventSerializer
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, OrderingFilter]
@@ -29,13 +28,13 @@ class EventViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Event.objects.all().order_by(
             models.Case(
-                models.When(status='upcoming', then=0),
-                models.When(status='finished', then=1),
-                models.When(status='cancelled', then=2),
+                models.When(status=Event.Statuses.UPCOMING, then=0),
+                models.When(status=Event.Statuses.FINISHED, then=1),
+                models.When(status=Event.Statuses.CANCELLED, then=2),
                 output_field=models.IntegerField(),
             ),
             'start_time',
-        )
+        ).prefetch_related('tags')
 
     def perform_create(self, serializer):
         serializer.save(organizer=self.request.user)
