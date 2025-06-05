@@ -1,0 +1,30 @@
+[project]
+name = "django-afisha"
+version = "0.1.0"
+description = "Афиша мероприятий"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "celery[redis]>=5.5.3",
+    "django>=5.2.2",
+    "django-celery-beat>=2.8.1",
+    "django-filter>=25.1",
+    "djangorestframework>=3.16.0",
+    "djangorestframework-simplejwt>=5.5.0",
+    "djoser>=2.3.1",
+    "psycopg[binary]>=3.2.9",
+]
+
+[tool.ruff]
+line-length = 120
+lint.select = ["E", "F", "I", "B", "Q", "W", "N", "ASYNC", "S"]
+lint.flake8-quotes.inline-quotes = "single"
+format.quote-style = "single"
+extend-exclude = [
+    "**/migrations/**"
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.0",
+]
