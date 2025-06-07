@@ -22,7 +22,6 @@ class EventViewSet(viewsets.ModelViewSet):
     serializer_class = EventSerializer
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, OrderingFilter]
-    ordering = ['start_time']
     filterset_class = EventFilter
 
     def get_queryset(self):
